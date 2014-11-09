@@ -1,17 +1,4 @@
-require 'pry'
-
-class RPSObject
-  def initialize
-  end
-
-  def beats?
-  end
-
-  def to_s
-  end
-end
-
-class Paper < RPSObject
+class Paper
   def beats? other_object
     other_object.to_s == 'Rock' ? true : false
   end
@@ -21,7 +8,7 @@ class Paper < RPSObject
   end
 end
 
-class Rock < RPSObject
+class Rock
   def beats? other_object
     other_object.to_s == 'Scissors' ? true : false
   end
@@ -31,7 +18,7 @@ class Rock < RPSObject
   end
 end
 
-class Scissors < RPSObject
+class Scissors
   def beats? other_object
     other_object.to_s == 'Paper' ? true : false
   end
@@ -43,7 +30,6 @@ end
 
 class Player
   attr_accessor :moves
-
 
   def choose
     choices = ['p','r','s']
