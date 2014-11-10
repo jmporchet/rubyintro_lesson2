@@ -1,11 +1,6 @@
 class Player
   attr_accessor :name
 
-  def initialize
-    #puts "Enter your name"
-    #self.player_name = gets.chomp
-  end
-
   def choose_move
     puts "Where do you want to place your move?"
     gets.chomp.to_i
