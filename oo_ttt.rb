@@ -1,5 +1,3 @@
-require 'pry'
-
 class Player
   attr_accessor :name
 
@@ -12,15 +10,12 @@ class Player
     puts "Where do you want to place your move?"
     gets.chomp.to_i
   end
-
 end
 
 class Computer
-
   def choose_move grid
     grid.moves.select { |index,move| move == " " }.keys.sample(1).first
   end
-
 end
 
 class Grid
@@ -49,7 +44,6 @@ class Grid
     marker = (player_object.is_a? Player) ? 'x' : 'o'
     self.moves.store(position.to_i, marker)
   end
-
 end
 
 class TicTacToeGame
@@ -77,7 +71,6 @@ class TicTacToeGame
     else
       puts "This wasn't a valid position. Please try again."
     end
-
   end
 
   def check_for_win
@@ -90,7 +83,6 @@ class TicTacToeGame
     end
     nil
   end
-
 end
 
 game = TicTacToeGame.new
