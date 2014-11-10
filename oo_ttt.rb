@@ -4,7 +4,7 @@ class Player
   attr_accessor :name
 
   def initialize
-    puts "Enter your name"
+    #puts "Enter your name"
     #self.player_name = gets.chomp
   end
 
@@ -18,9 +18,7 @@ end
 class Computer
 
   def choose_move grid
-    puts "computer chose a random move"
-    p grid.moves.select { |index,move| move == " " }.keys.sample(1).first
-
+    grid.moves.select { |index,move| move == " " }.keys.sample(1).first
   end
 
 end
@@ -38,21 +36,18 @@ class Grid
     3.times do |line|
       puts "     |     |     "
       puts "  #{self.moves.fetch(line*3+1)}  |  #{self.moves.fetch(line*3+2)}  |  #{self.moves.fetch(line*3+3)}  "
-      puts "_____|_____|_____"
+      puts (line != 2) ? "_____|_____|_____" : "     |     |     "
     end
   end
 
   def position_is_available? pos
-    #implement the check
-    puts "Player chose #{pos}"
-    #moves.fetch(pos.to_i) != " "
-    true
+    return false if pos == 0
+    @moves.fetch(pos.to_i) == " "
   end
 
-  def place_move position
-    #should put the correct sign according to the current player
-    self.moves.store(position.to_i, 'x')
-    binding.pry
+  def place_move position, player_object
+    marker = (player_object.is_a? Player) ? 'x' : 'o'
+    self.moves.store(position.to_i, marker)
   end
 
 end
@@ -70,18 +65,30 @@ class TicTacToeGame
   end
 
   def play_turn
-    @grid.draw_grid
-    player_move = player.choose_move
-    if grid.position_is_available? player_move
-      #update grid
-      @grid.place_move player_move
+    
+    player_choice = player.choose_move
+    if grid.position_is_available? player_choice
+    #update grid
+      @grid.place_move player_choice, @player
+
+      computer_choice = computer.choose_move @grid
+      @grid.place_move computer_choice, @computer
+      @grid.draw_grid
+    else
+      puts "Please enter a valid position"
     end
-    computer_move = computer.choose_move @grid
-    @grid.place_move computer_move
+
   end
 
   def check_for_win
+    player_moves = @grid.moves.select { |i,m| m == 'x' }.keys
+    computer_moves = @grid.moves.select { |i,m| m == 'o' }.keys
 
+    WINNING_MOVES.each do |line|
+      return "You won!" if @grid.moves.values_at(*line).count('x') == 3 
+      return "You lost!" if @grid.moves.values_at(*line).count('o') == 3 
+    end
+    nil
   end
 
 end
@@ -90,4 +97,9 @@ game = TicTacToeGame.new
 
 loop do
   game.play_turn
+  result = game.check_for_win
+  if result != nil
+    puts result
+    exit
+  end
 end
