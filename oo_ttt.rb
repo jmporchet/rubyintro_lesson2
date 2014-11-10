@@ -75,7 +75,7 @@ class TicTacToeGame
       @grid.place_move computer_choice, @computer
       @grid.draw_grid
     else
-      puts "Please enter a valid position"
+      puts "This wasn't a valid position. Please try again."
     end
 
   end
