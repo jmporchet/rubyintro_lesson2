@@ -29,7 +29,16 @@ class Game
   end
 
   def who_won
-
+    highest_score = 0
+    highest_player = ""
+    players.each do |k,v|
+      if v.score > highest_score
+        highest_score = v.score 
+        highest_player = v.name 
+      end
+    end
+    #needs to check if busted
+    puts highest_player
   end
 
   def play
@@ -63,7 +72,7 @@ class Game
       exit
     end
 
-    puts who_won
+    who_won
 
   end
 end
