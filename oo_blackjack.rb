@@ -32,39 +32,41 @@ class Game
     highest_score = 0
     highest_player = ""
     players.each do |k,v|
-      if v.score > highest_score
+      if v.score > highest_score && v.score <= 21
         highest_score = v.score 
         highest_player = v.name 
       end
     end
-    #needs to check if busted
+    #needs a check to see if it's a tie
     puts highest_player
   end
 
   def play
     players.each do |k,v|
       v.hit decks
-      v.hit decks
+      puts v.hit decks
     end
 
-    players.each do |k,v|
-      puts "#{v.name} has " + v.calculate_hand.to_s
-    end
+    # players.each do |k,v|
+    #   puts "#{v.name} has " + v.calculate_hand.to_s
+    # end
 
     while !players[:player_one].has_busted
       puts "1) hit or 2) stay?"
       answer = gets.chomp.to_i
       if answer == 1
-        players[:player_one].hit decks
-        puts "Your score: " + players[:player_one].calculate_hand.to_s
+        puts players[:player_one].hit decks
+        if players[:player_one].has_busted
+          puts "You busted!"
+          exit
+        end
       else 
         break
       end
     end
 
     while players[:dealer].calculate_hand < 17
-      players[:dealer].hit decks
-      puts "dealer hits one more time! " + players[:dealer].calculate_hand.to_s
+      puts players[:dealer].hit decks
     end
 
     if players[:dealer].has_busted
@@ -94,7 +96,7 @@ class Player
     amount = 0
     self.hand = hand.sort_by { |k,v| v }
     hand.flatten.each do |card|
-      #if the Ace value makes the blayer bust, transform it to 1 instead
+      #if the Ace value makes the player bust, transform it to 1 instead
       if (card.value == 11) && ((amount + card.value) > 21)
         card.value = 1
       end
@@ -117,6 +119,7 @@ class Dealer < Player
 
   def hit decks
     self.hand << decks.deck.sample(1)
+    "Dealer's score: " + self.calculate_hand.to_s
   end
 end
 
@@ -130,6 +133,7 @@ class Human < Player
 
   def hit decks
     self.hand << decks.deck.sample(1)
+    "#{name}'s score: " + self.calculate_hand.to_s
   end
 end
 
