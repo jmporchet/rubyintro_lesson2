@@ -50,6 +50,13 @@ class Game
       puts v.hit decks
     end
 
+    players.each do |k,v|
+      if v.score == 21
+        puts "#{v.name} has blackjack!"
+        exit
+      end
+    end
+
     while !players[:player_one].has_busted
       puts "1) hit or 2) stay?"
       answer = gets.chomp.to_i
