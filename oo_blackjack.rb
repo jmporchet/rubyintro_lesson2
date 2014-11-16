@@ -35,6 +35,9 @@ class Game
       if v.score > highest_score && v.score <= 21
         highest_score = v.score 
         highest_player = v.name 
+      elsif v.score == highest_score && v.score <= 21
+        highest_score = v.score 
+        highest_player = "tie"
       end
     end
     #needs a check to see if it's a tie
@@ -46,10 +49,6 @@ class Game
       v.hit decks
       puts v.hit decks
     end
-
-    # players.each do |k,v|
-    #   puts "#{v.name} has " + v.calculate_hand.to_s
-    # end
 
     while !players[:player_one].has_busted
       puts "1) hit or 2) stay?"
